@@ -50,8 +50,8 @@ catalogs:
   - name: tekton
     org: tektoncd
     type: community
-    url: https://github.com/tektoncd/catalog
-    revision: main
+    url: https://github.com/barthy1/catalog
+    revision: arch-test
 
 scopes:
   - name: agent:create
