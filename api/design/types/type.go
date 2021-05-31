@@ -33,6 +33,19 @@ var Tag = Type("Tag", func() {
 
 var Tags = ArrayOf(Tag)
 
+var Platform = Type("Platform", func() {
+        Attribute("id", UInt, "ID is the unique id of Platform", func() {
+                Example("id", 1)
+        })
+        Attribute("name", String, "Name of platform", func() {
+                Example("name", "image-build")
+        })
+
+        Required("id", "name")
+})
+
+var Platforms = ArrayOf(Platform)
+
 var Category = Type("Category", func() {
 	Attribute("id", UInt, "ID is the unique id of the category", func() {
 		Example("id", 1)
@@ -122,6 +135,7 @@ var ResourceVersionData = ResultType("application/vnd.hub.resource.version.data"
 				"catalog": Val{"id": 1, "type": "community"},
 				"kind":    "task",
 				"tags":    []Val{{"id": 1, "name": "image-build"}},
+				"platforms":   []Val{{"id": 1, "name": "linux/amd64"}},
 				"rating":  4.3,
 			})
 		})
@@ -205,6 +219,13 @@ var ResourceData = ResultType("application/vnd.hub.resource.data", "ResourceData
 			})
 		})
 	})
+        Attribute("platforms", Platforms, "Platforms related to resource", func() {
+                Example("platforms", func() {
+                        Value([]Val{
+                                {"id": 1, "name": "image-build"},
+                        })
+                })
+        })
 	Attribute("rating", Float64, "Rating of resource", func() {
 		Example("rating", 4.3)
 	})
@@ -226,6 +247,7 @@ var ResourceData = ResultType("application/vnd.hub.resource.data", "ResourceData
 		Attribute("catalog")
 		Attribute("kind")
 		Attribute("tags")
+		Attribute("platforms")
 		Attribute("rating")
 	})
 
@@ -238,6 +260,7 @@ var ResourceData = ResultType("application/vnd.hub.resource.data", "ResourceData
 		Attribute("kind")
 		Attribute("latestVersion")
 		Attribute("tags")
+		Attribute("platforms")
 		Attribute("rating")
 	})
 
@@ -248,13 +271,14 @@ var ResourceData = ResultType("application/vnd.hub.resource.data", "ResourceData
 		Attribute("kind")
 		Attribute("latestVersion")
 		Attribute("tags")
+		Attribute("platforms")
 		Attribute("rating")
 		Attribute("versions", func() {
 			View("tiny")
 		})
 	})
 
-	Required("id", "name", "catalog", "kind", "latestVersion", "tags", "rating", "versions")
+	Required("id", "name", "catalog", "kind", "latestVersion", "tags", "platforms", "rating", "versions")
 })
 
 var Versions = ResultType("application/vnd.hub.versions", "Versions", func() {

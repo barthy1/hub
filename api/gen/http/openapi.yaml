@@ -1741,6 +1741,25 @@ definitions:
     - id
     - catalogName
     - status
+  PlatformResponseBody:
+    title: PlatformResponseBody
+    type: object
+    properties:
+      id:
+        type: integer
+        description: ID is the unique id of Platform
+        example: 1
+        format: int64
+      name:
+        type: string
+        description: Name of platform
+        example: image-build
+    example:
+      id: 1
+      name: image-build
+    required:
+    - id
+    - name
   RatingGetInternalErrorResponseBody:
     title: 'Mediatype identifier: application/vnd.goa.error; view=default'
     type: object
@@ -2256,6 +2275,9 @@ definitions:
           version: "0.1"
           webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
         name: buildah
+        platforms:
+        - id: 1
+          name: image-build
         rating: 4.3
         tags:
         - id: 1
@@ -2379,6 +2401,9 @@ definitions:
           id: 1
           kind: task
           name: buildah
+          platforms:
+          - id: 1
+            name: linux/amd64
           rating: 4.3
           tags:
           - id: 1
@@ -2504,6 +2529,9 @@ definitions:
           version: "0.1"
           webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
         name: buildah
+        platforms:
+        - id: 1
+          name: image-build
         rating: 4.3
         tags:
         - id: 1
@@ -2627,6 +2655,9 @@ definitions:
           id: 1
           kind: task
           name: buildah
+          platforms:
+          - id: 1
+            name: linux/amd64
           rating: 4.3
           tags:
           - id: 1
@@ -2657,6 +2688,14 @@ definitions:
         type: string
         description: Name of resource
         example: buildah
+      platforms:
+        type: array
+        items:
+          $ref: '#/definitions/PlatformResponseBody'
+        description: Platforms related to resource
+        example:
+        - id: 1
+          name: image-build
       rating:
         type: number
         description: Rating of resource
@@ -2699,6 +2738,9 @@ definitions:
         version: "0.1"
         webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
       name: buildah
+      platforms:
+      - id: 1
+        name: image-build
       rating: 4.3
       tags:
       - id: 1
@@ -2715,6 +2757,7 @@ definitions:
     - kind
     - latestVersion
     - tags
+    - platforms
     - rating
     - versions
   ResourceDataResponseBodyInfo:
@@ -2736,6 +2779,14 @@ definitions:
         type: string
         description: Name of resource
         example: buildah
+      platforms:
+        type: array
+        items:
+          $ref: '#/definitions/PlatformResponseBody'
+        description: Platforms related to resource
+        example:
+        - id: 1
+          name: image-build
       rating:
         type: number
         description: Rating of resource
@@ -2758,6 +2809,9 @@ definitions:
       id: 1
       kind: task
       name: buildah
+      platforms:
+      - id: 1
+        name: image-build
       rating: 4.3
       tags:
       - id: 1
@@ -2768,6 +2822,7 @@ definitions:
     - catalog
     - kind
     - tags
+    - platforms
     - rating
   ResourceDataResponseBodyWithoutVersion:
     title: 'Mediatype identifier: application/vnd.hub.resource.data; view=default'
@@ -2790,6 +2845,14 @@ definitions:
         type: string
         description: Name of resource
         example: buildah
+      platforms:
+        type: array
+        items:
+          $ref: '#/definitions/PlatformResponseBody'
+        description: Platforms related to resource
+        example:
+        - id: 1
+          name: image-build
       rating:
         type: number
         description: Rating of resource
@@ -2823,6 +2886,9 @@ definitions:
         version: "0.1"
         webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
       name: buildah
+      platforms:
+      - id: 1
+        name: image-build
       rating: 4.3
       tags:
       - id: 1
@@ -2834,6 +2900,7 @@ definitions:
     - kind
     - latestVersion
     - tags
+    - platforms
     - rating
   ResourceDataResponseBodyWithoutVersionCollection:
     title: 'Mediatype identifier: application/vnd.hub.resource.data; type=collection;
@@ -2861,6 +2928,9 @@ definitions:
         version: "0.1"
         webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
       name: buildah
+      platforms:
+      - id: 1
+        name: image-build
       rating: 4.3
       tags:
       - id: 1
@@ -2887,6 +2957,9 @@ definitions:
         version: "0.1"
         webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
       name: buildah
+      platforms:
+      - id: 1
+        name: image-build
       rating: 4.3
       tags:
       - id: 1
@@ -2967,6 +3040,9 @@ definitions:
           version: "0.1"
           webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
         name: buildah
+        platforms:
+        - id: 1
+          name: image-build
         rating: 4.3
         tags:
         - id: 1
@@ -2988,6 +3064,9 @@ definitions:
           version: "0.1"
           webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
         name: buildah
+        platforms:
+        - id: 1
+          name: image-build
         rating: 4.3
         tags:
         - id: 1
@@ -3009,6 +3088,9 @@ definitions:
           version: "0.1"
           webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
         name: buildah
+        platforms:
+        - id: 1
+          name: image-build
         rating: 4.3
         tags:
         - id: 1
@@ -3176,6 +3258,9 @@ definitions:
           version: "0.1"
           webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
         name: buildah
+        platforms:
+        - id: 1
+          name: image-build
         rating: 4.3
         tags:
         - id: 1
@@ -3197,6 +3282,9 @@ definitions:
           version: "0.1"
           webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
         name: buildah
+        platforms:
+        - id: 1
+          name: image-build
         rating: 4.3
         tags:
         - id: 1
@@ -3218,6 +3306,9 @@ definitions:
           version: "0.1"
           webURL: https://github.com/tektoncd/catalog/blob/main/task/buildah/0.1/buildah.yaml
         name: buildah
+        platforms:
+        - id: 1
+          name: image-build
         rating: 4.3
         tags:
         - id: 1
@@ -3283,6 +3374,9 @@ definitions:
         id: 1
         kind: task
         name: buildah
+        platforms:
+        - id: 1
+          name: linux/amd64
         rating: 4.3
         tags:
         - id: 1

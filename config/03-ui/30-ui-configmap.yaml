@@ -4,6 +4,6 @@ kind: ConfigMap
 metadata:
   name: ui
 data:
-  API_URL: 'https://api.hub.tekton.dev'
-  GH_CLIENT_ID: ''
+  API_URL: 'http://api-tekton-hub.apps.tt.testing:7443'
+  GH_CLIENT_ID: '529394cfddd5d9afd25d'
   API_VERSION: ''

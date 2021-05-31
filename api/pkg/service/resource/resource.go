@@ -292,6 +292,14 @@ func initResource(r model.Resource) *resource.ResourceData {
 		})
 	}
 
+        res.Platforms = []*resource.Platform{}
+        for _, platform := range r.Platforms {
+                res.Platforms = append(res.Platforms, &resource.Platform{
+                        ID:   platform.ID,
+                        Name: platform.Name,
+                })
+        }
+
 	return res
 }
 
@@ -323,12 +331,22 @@ func versionInfoFromResource(r model.Resource) *resource.ResourceVersion {
 			Name: tag.Name,
 		})
 	}
+
+	var platforms []*resource.Platform
+        for _, platform := range r.Platforms {
+                platforms = append(platforms, &resource.Platform{
+                        ID: platform.ID,
+                        Name: platform.Name,
+                })
+        }
+
 	res := &resource.ResourceData{
 		ID:     r.ID,
 		Name:   r.Name,
 		Kind:   r.Kind,
 		Rating: r.Rating,
 		Tags:   tags,
+		Platforms:  platforms,
 		Catalog: &resource.Catalog{
 			ID:   r.Catalog.ID,
 			Name: r.Catalog.Name,

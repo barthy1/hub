@@ -31,9 +31,9 @@ import (
 const resTemplate = `{{- $rl := len .Resources }}{{ if eq $rl 0 -}}
 No Resources found
 {{ else -}}
-NAME	KIND	CATALOG	DESCRIPTION	TAGS
+NAME	KIND	CATALOG	DESCRIPTION	TAGS   ARCHITECTURES
 {{ range $_, $r := .Resources -}}
-{{ formatName $r.Name $r.LatestVersion.Version }}	{{ $r.Kind }}	{{ formatCatalogName $r.Catalog.Name }}	{{ formatDesc $r.LatestVersion.Description 40 }}	{{ formatTags $r.Tags }}
+{{ formatName $r.Name $r.LatestVersion.Version }}	{{ $r.Kind }}	{{ formatCatalogName $r.Catalog.Name }}	{{ formatDesc $r.LatestVersion.Description 40 }}	{{ formatTags $r.Tags }}   {{ formatPlatforms $r.Platforms }}
 {{ end }}
 {{- end -}}
 `
@@ -44,6 +44,7 @@ var (
 		"formatCatalogName": formatter.FormatCatalogName,
 		"formatDesc":        formatter.FormatDesc,
 		"formatTags":        formatter.FormatTags,
+                "formatPlatforms":        formatter.FormatPlatforms,
 	}
 	tmpl = template.Must(template.New("List Resources").Funcs(funcMap).Parse(resTemplate))
 )
@@ -54,6 +55,7 @@ type options struct {
 	match  string
 	output string
 	tags   []string
+	platforms []string
 	kinds  []string
 	args   []string
 }
@@ -94,6 +96,7 @@ func Command(cli app.CLI) *cobra.Command {
 	cmd.Flags().StringVar(&opts.match, "match", "contains", "Accept type of search. 'exact' or 'contains'.")
 	cmd.Flags().StringArrayVar(&opts.kinds, "kinds", nil, "Accepts a comma separated list of kinds")
 	cmd.Flags().StringArrayVar(&opts.tags, "tags", nil, "Accepts a comma separated list of tags")
+	cmd.Flags().StringArrayVar(&opts.platforms, "platforms", nil, "Accepts a comma separated list of platforms")
 	cmd.Flags().StringVarP(&opts.output, "output", "o", "table", "Accepts output format: [table, json]")
 
 	return cmd
@@ -111,6 +114,7 @@ func (opts *options) run() error {
 		Name:  opts.name(),
 		Kinds: opts.kinds,
 		Tags:  opts.tags,
+		Platforms: opts.platforms,
 		Match: opts.match,
 		Limit: opts.limit,
 	})
@@ -138,7 +142,7 @@ func (opts *options) run() error {
 func (opts *options) validate() error {
 
 	if flag.AllEmpty(opts.args, opts.kinds, opts.tags) {
-		return fmt.Errorf("please specify a resource name, --tags or --kinds flag to search")
+		return fmt.Errorf("please specify a resource name, --tags, --kinds or --platforms flag to search")
 	}
 
 	if err := flag.InList("match", opts.match, []string{"contains", "exact"}); err != nil {
@@ -151,6 +155,7 @@ func (opts *options) validate() error {
 
 	opts.kinds = flag.TrimArray(opts.kinds)
 	opts.tags = flag.TrimArray(opts.tags)
+	opts.platforms = flag.TrimArray(opts.platforms)
 
 	for _, k := range opts.kinds {
 		if !parser.IsSupportedKind(k) {

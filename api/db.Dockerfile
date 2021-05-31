@@ -3,7 +3,7 @@ FROM golang:1.15-alpine3.12 AS builder
 WORKDIR /go/src/github.com/tektoncd/hub/api
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o db-migration ./cmd/db/...
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=s390x go build -o db-migration ./cmd/db/...
 
 FROM alpine:3.12
 

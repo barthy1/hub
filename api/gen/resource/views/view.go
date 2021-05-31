@@ -66,6 +66,8 @@ type ResourceDataView struct {
 	LatestVersion *ResourceVersionDataView
 	// Tags related to resource
 	Tags []*TagView
+	// Platforms related to resource
+	Platforms []*PlatformView
 	// Rating of resource
 	Rating *float64
 	// List of all versions of a resource
@@ -111,6 +113,14 @@ type TagView struct {
 	// ID is the unique id of tag
 	ID *uint
 	// Name of tag
+	Name *string
+}
+
+// PlatformView is a type that runs validations on a projected type.
+type PlatformView struct {
+	// ID is the unique id of Platform
+	ID *uint
+	// Name of platform
 	Name *string
 }
 
@@ -175,6 +185,7 @@ var (
 			"catalog",
 			"kind",
 			"tags",
+			"platforms",
 			"rating",
 		},
 		"withoutVersion": []string{
@@ -184,6 +195,7 @@ var (
 			"kind",
 			"latestVersion",
 			"tags",
+			"platforms",
 			"rating",
 		},
 		"default": []string{
@@ -193,6 +205,7 @@ var (
 			"kind",
 			"latestVersion",
 			"tags",
+			"platforms",
 			"rating",
 			"versions",
 		},
@@ -206,6 +219,7 @@ var (
 			"catalog",
 			"kind",
 			"tags",
+			"platforms",
 			"rating",
 		},
 		"withoutVersion": []string{
@@ -215,6 +229,7 @@ var (
 			"kind",
 			"latestVersion",
 			"tags",
+			"platforms",
 			"rating",
 		},
 		"default": []string{
@@ -224,6 +239,7 @@ var (
 			"kind",
 			"latestVersion",
 			"tags",
+			"platforms",
 			"rating",
 			"versions",
 		},
@@ -396,12 +412,22 @@ func ValidateResourceDataViewInfo(result *ResourceDataView) (err error) {
 	if result.Tags == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("tags", "result"))
 	}
+	if result.Platforms == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("platforms", "result"))
+	}
 	if result.Rating == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("rating", "result"))
 	}
 	for _, e := range result.Tags {
 		if e != nil {
 			if err2 := ValidateTagView(e); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	for _, e := range result.Platforms {
+		if e != nil {
+			if err2 := ValidatePlatformView(e); err2 != nil {
 				err = goa.MergeErrors(err, err2)
 			}
 		}
@@ -429,12 +455,22 @@ func ValidateResourceDataViewWithoutVersion(result *ResourceDataView) (err error
 	if result.Tags == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("tags", "result"))
 	}
+	if result.Platforms == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("platforms", "result"))
+	}
 	if result.Rating == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("rating", "result"))
 	}
 	for _, e := range result.Tags {
 		if e != nil {
 			if err2 := ValidateTagView(e); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	for _, e := range result.Platforms {
+		if e != nil {
+			if err2 := ValidatePlatformView(e); err2 != nil {
 				err = goa.MergeErrors(err, err2)
 			}
 		}
@@ -467,6 +503,9 @@ func ValidateResourceDataView(result *ResourceDataView) (err error) {
 	if result.Tags == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("tags", "result"))
 	}
+	if result.Platforms == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("platforms", "result"))
+	}
 	if result.Rating == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("rating", "result"))
 	}
@@ -476,6 +515,13 @@ func ValidateResourceDataView(result *ResourceDataView) (err error) {
 	for _, e := range result.Tags {
 		if e != nil {
 			if err2 := ValidateTagView(e); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
+	}
+	for _, e := range result.Platforms {
+		if e != nil {
+			if err2 := ValidatePlatformView(e); err2 != nil {
 				err = goa.MergeErrors(err, err2)
 			}
 		}
@@ -664,6 +710,17 @@ func ValidateResourceVersionDataView(result *ResourceVersionDataView) (err error
 
 // ValidateTagView runs the validations defined on TagView.
 func ValidateTagView(result *TagView) (err error) {
+	if result.ID == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("id", "result"))
+	}
+	if result.Name == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("name", "result"))
+	}
+	return
+}
+
+// ValidatePlatformView runs the validations defined on PlatformView.
+func ValidatePlatformView(result *PlatformView) (err error) {
 	if result.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "result"))
 	}

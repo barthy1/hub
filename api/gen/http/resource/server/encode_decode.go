@@ -627,6 +627,12 @@ func marshalResourceviewsResourceDataViewToResourceDataResponseBodyWithoutVersio
 			res.Tags[i] = marshalResourceviewsTagViewToTagResponseBody(val)
 		}
 	}
+	if v.Platforms != nil {
+		res.Platforms = make([]*PlatformResponseBody, len(v.Platforms))
+		for i, val := range v.Platforms {
+			res.Platforms[i] = marshalResourceviewsPlatformViewToPlatformResponseBody(val)
+		}
+	}
 
 	return res
 }
@@ -665,6 +671,17 @@ func marshalResourceviewsResourceVersionDataViewToResourceVersionDataResponseBod
 // *TagResponseBody from a value of type *resourceviews.TagView.
 func marshalResourceviewsTagViewToTagResponseBody(v *resourceviews.TagView) *TagResponseBody {
 	res := &TagResponseBody{
+		ID:   *v.ID,
+		Name: *v.Name,
+	}
+
+	return res
+}
+
+// marshalResourceviewsPlatformViewToPlatformResponseBody builds a value of
+// type *PlatformResponseBody from a value of type *resourceviews.PlatformView.
+func marshalResourceviewsPlatformViewToPlatformResponseBody(v *resourceviews.PlatformView) *PlatformResponseBody {
+	res := &PlatformResponseBody{
 		ID:   *v.ID,
 		Name: *v.Name,
 	}
@@ -743,6 +760,12 @@ func marshalResourceviewsResourceDataViewToResourceDataResponseBodyInfo(v *resou
 			res.Tags[i] = marshalResourceviewsTagViewToTagResponseBody(val)
 		}
 	}
+	if v.Platforms != nil {
+		res.Platforms = make([]*PlatformResponseBody, len(v.Platforms))
+		for i, val := range v.Platforms {
+			res.Platforms[i] = marshalResourceviewsPlatformViewToPlatformResponseBody(val)
+		}
+	}
 
 	return res
 }
@@ -767,6 +790,12 @@ func marshalResourceviewsResourceDataViewToResourceDataResponseBody(v *resourcev
 		res.Tags = make([]*TagResponseBody, len(v.Tags))
 		for i, val := range v.Tags {
 			res.Tags[i] = marshalResourceviewsTagViewToTagResponseBody(val)
+		}
+	}
+	if v.Platforms != nil {
+		res.Platforms = make([]*PlatformResponseBody, len(v.Platforms))
+		for i, val := range v.Platforms {
+			res.Platforms[i] = marshalResourceviewsPlatformViewToPlatformResponseBody(val)
 		}
 	}
 	if v.Versions != nil {

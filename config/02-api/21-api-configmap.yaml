@@ -19,4 +19,4 @@ metadata:
   labels:
     app: api
 data:
-  CONFIG_FILE_URL: https://raw.githubusercontent.com/tektoncd/hub/main/config.yaml
+  CONFIG_FILE_URL: https://raw.githubusercontent.com/barthy1/hub/arch-info/config.yaml

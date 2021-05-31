@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: quay.io/tekton-hub/api
+          image: 172.18.40.55:4000/api
           ports:
             - containerPort: 8000
           readinessProbe:

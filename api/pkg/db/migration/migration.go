@@ -36,6 +36,7 @@ func Migrate(api *app.APIBase) error {
 			addRefreshTokenChecksumColumnInUserTable(log),
 			updateCatalogBranchToMain(log),
 			addAvatarURLColumnInUsersTable(log),
+			createPlatformTables(log),
 		},
 	)
 
@@ -52,6 +53,8 @@ func Migrate(api *app.APIBase) error {
 			&model.SyncJob{},
 			&model.Scope{},
 			&model.Config{},
+			&model.Platform{},
+			&model.ResourcePlatform{},
 		); err != nil {
 			log.Error(err)
 			return err

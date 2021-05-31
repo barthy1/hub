@@ -187,6 +187,8 @@ func (s *syncer) Process() error {
 	parser := parser.ForCatalog(s.logger, repo, catalog.ContextDir)
 
 	res, result := parser.Parse()
+	log.Info("res=",res)
+	log.Info("result=",result)
 	if err = s.updateJob(syncJob, repo.Head(), res, result); err != nil {
 		log.Error(err, "updation of db failed")
 		setJobState(model.JobQueued)
@@ -256,6 +258,7 @@ func (s *syncer) updateResources(
 		log.Infof("Resource: %s  ID: %d stored", r.Name, dbRes.ID)
 
 		s.updateResourceTags(txn, log, &dbRes, r.Tags)
+		s.updateResourcePlatforms(txn, log, &dbRes, r.Platforms)
 		s.updateResourceVersions(txn, log, catalog, dbRes.ID, r.Versions)
 
 	}
@@ -282,6 +285,25 @@ func (s *syncer) updateResourceTags(
 		txn.Model(&model.ResourceTag{}).Where(resTag).FirstOrCreate(&resTag)
 		log.Infof("Resource: %d: %s | tag: %s (%d)", res.ID, res.Name, tag.Name, tag.ID)
 	}
+}
+
+func (s *syncer) updateResourcePlatforms(
+        txn *gorm.DB, log *zap.SugaredLogger,
+        res *model.Resource, platforms []string) {
+
+        if len(platforms) == 0 {
+                return
+        }
+
+        for _, p := range platforms {
+
+                platform := model.Platform{Name: p}
+
+                txn.Model(&model.Platform{}).Where(&model.Platform{Name: p}).FirstOrCreate(&platform)
+		resPlatform := model.ResourcePlatform{ResourceID: res.ID, PlatformID: platform.ID}
+                txn.Model(&model.ResourcePlatform{}).Where(resPlatform).FirstOrCreate(&resPlatform)
+                log.Infof("Resource: %d: %s | platform: %s (%d)", res.ID, res.Name, platform.Name, platform.ID)
+        }
 }
 
 func (s *syncer) updateResourceVersions(

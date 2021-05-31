@@ -41,6 +41,8 @@ const (
 	DisplayNameAnnotation         = "tekton.dev/displayName"
 	MinPipelinesVersionAnnotation = "tekton.dev/pipelines.minVersion"
 	TagsAnnotation                = "tekton.dev/tags"
+	PlatformsAnnotation		      = "tekton.dev/platform"
+	DefaultPlatform                   = "linux/amd64"
 )
 
 type (
@@ -48,6 +50,7 @@ type (
 		Name     string
 		Kind     string
 		Tags     []string
+		Platforms    []string
 		Versions []VersionInfo
 	}
 
@@ -272,6 +275,14 @@ func (c CatalogParser) appendVersion(res *Resource, filePath string) Result {
 	tags := annotations[TagsAnnotation]
 	tagList := strings.FieldsFunc(tags, func(c rune) bool { return c == ',' || c == ' ' })
 	res.Tags = append(res.Tags, tagList...)
+
+        platforms := annotations[PlatformsAnnotation]
+        platformList := strings.FieldsFunc(platforms, func(c rune) bool { return c == ',' || c == ' ' })
+        res.Platforms = append(res.Platforms, platformList...)
+	if len(platforms)==0 {
+		res.Platforms = append(res.Platforms, DefaultPlatform)
+	}
+
 	res.Versions = append(res.Versions,
 		VersionInfo{
 			Version:             version,

@@ -73,6 +73,22 @@ func FormatTags(tags []*client.TagResponseBody) string {
 	return sb.String()
 }
 
+// FormatPlatforms returns list of platforms seperated by comma
+func FormatPlatforms(platforms []*client.PlatformResponseBody) string {
+        var sb strings.Builder
+        if len(platforms) == 0 {
+                return "---"
+        }
+        for i, p := range platforms {
+                if i != len(platforms)-1 {
+                        sb.WriteString(strings.Trim(*p.Name, " ") + ", ")
+                        continue
+                }
+                sb.WriteString(strings.Trim(*p.Name, " "))
+        }
+        return sb.String()
+}
+
 // WrapText returns description broken down in multiple lines with
 // max width passed to it
 // titleLength would be the length of title on left hand side before the
