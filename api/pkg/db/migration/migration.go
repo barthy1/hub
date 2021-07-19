@@ -39,6 +39,7 @@ func Migrate(api *app.APIBase) error {
 			removeCatgoryIdColumnAndConstraintsFromTagtable(log),
 			updateResourcesCategoryTable(log),
 			removeExistingCategories(log),
+			createPlatformTables(log),
 		},
 	)
 
@@ -55,6 +56,9 @@ func Migrate(api *app.APIBase) error {
 			&model.SyncJob{},
 			&model.Scope{},
 			&model.Config{},
+			&model.Platform{},
+			&model.VersionPlatform{},
+			&model.ResourcePlatform{},
 		); err != nil {
 			log.Error(err)
 			return err
