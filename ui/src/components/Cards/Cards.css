@@ -26,10 +26,19 @@
 }
 
 .hub-tags-container {
+  height: 1.5em;
+}
+
+.hub-platforms-container {
   height: 2.5em;
 }
 
 .hub-tags {
+  margin-right: 0.3em;
+  margin-bottom: 0.2em;
+}
+
+.hub-platforms {
   margin-right: 0.3em;
   margin-bottom: 0.5em;
 }

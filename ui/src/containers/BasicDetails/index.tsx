@@ -27,6 +27,7 @@ import { useParams } from 'react-router-dom';
 import { useMst } from '../../store/root';
 import { IResource } from '../../store/resource';
 import { ITag } from '../../store/tag';
+import { IPlatform } from '../../store/platform';
 import { Icons } from '../../common/icons';
 import Icon from '../../components/Icon';
 import TooltipDisplay from '../../components/TooltipDisplay';
@@ -111,6 +112,13 @@ const BasicDetails: React.FC = () => {
                     {resource.tags.map((tag: ITag) => (
                       <Badge key={`badge-${tag.id}`} className="hub-tags">
                         {tag.name}
+                      </Badge>
+                    ))}
+                  </GridItem>
+                  <GridItem>
+                    {resource.platforms.map((platform: IPlatform) => (
+                      <Badge key={`badge-${platform.id}`} className="hub-platforms">
+                        {platform.name}
                       </Badge>
                     ))}
                   </GridItem>

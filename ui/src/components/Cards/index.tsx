@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { IconSize } from '@patternfly/react-icons';
 import { IResource } from '../../store/resource';
 import { ITag } from '../../store/tag';
+import { IPlatform } from '../../store/platform';
 import Icon from '../Icon';
 import { Icons } from '../../common/icons';
 import TooltipDisplay from '../TooltipDisplay';
@@ -68,6 +69,14 @@ const Cards: React.FC<Props> = (resources) => {
                   {resource.tags.slice(0, 3).map((tag: ITag) => (
                     <Badge className="hub-tags" key={`badge-${tag.id}`}>
                       {tag.name}
+                    </Badge>
+                  ))}
+                </div>
+
+                <div className="hub-platforms-container">
+                  {resource.platforms.slice(0, 3).map((platform: IPlatform) => (
+                    <Badge className="hub-platforms" key={`badge-${platform.id}`}>
+                      {platform.name}
                     </Badge>
                   ))}
                 </div>

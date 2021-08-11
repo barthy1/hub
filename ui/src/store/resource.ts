@@ -10,6 +10,7 @@ import { Kind, KindStore } from './kind';
 import { assert } from './utils';
 import { Params } from '../common/params';
 import { Tag, TagStore, ITag } from './tag';
+import { Platform, PlatformStore, IPlatform } from './platform';
 import { TagsKeyword } from '../containers/Search';
 
 export const updatedAt = types.custom<string, Moment>({
@@ -53,6 +54,7 @@ export const Resource = types
     latestVersion: types.reference(Version),
     displayVersion: types.reference(Version),
     tags: types.array(types.reference(Tag)), // ["cli", "aws"]
+    platforms: types.array(types.reference(Platform)),
     rating: types.number,
     versions: types.array(types.reference(Version)),
     displayName: '',
@@ -115,6 +117,7 @@ export const ResourceStore = types
     catalog: types.optional(types.map(Catalog), {}),
     kinds: types.optional(KindStore, {}),
     tags: types.optional(TagStore, {}),
+    platforms: types.optional(PlatformStore, {}),
     sortBy: types.optional(types.enumeration(Object.values(SortByFields)), SortByFields.Unknown),
     category: types.optional(types.map(Category), {}),
     search: '',
@@ -277,6 +280,10 @@ export const ResourceStore = types
         const tags: ITag[] = json.data.flatMap((item: IResource) => item.tags);
         tags.forEach((t) => self.tags.add(t));
 
+        // adding the platforms to the store - normalized
+        const platforms: IPlatform[] = json.data.flatMap((item: IResource) => item.platforms);
+        platforms.forEach((p) => self.platforms.add(p));
+
         const allCatalogs: ICatalog[] = json.data.flatMap((item: IResource) => item.catalog);
         allCatalogs.forEach((t) => self.catalog.put(t));
 
@@ -295,6 +302,7 @@ export const ResourceStore = types
           latestVersion: r.latestVersion.id,
           displayVersion: r.latestVersion.id,
           tags: r.tags != null ? r.tags.map((tag: ITag) => tag.name) : [],
+	  platforms: r.platforms != null ? r.platforms.map((platform: IPlatform) => platform.name) : [],
           categories: r.categories != null ? r.categories.map((c: ICategory) => c.id) : [],
           rating: r.rating,
           versions: [],
